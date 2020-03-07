@@ -9,7 +9,7 @@
 import sys #na kontrolu argumentov
 import socket
 ##########################################
-#poslanie validnych dat klientovi
+#poslanie validnych dat klientovi - opGet
 def Dsend (data, type, s, conn, err):
     if err < 400:
         #kontrola existencie url
@@ -18,8 +18,10 @@ def Dsend (data, type, s, conn, err):
         except socket.error:
             conn.sendall(b'HTTP/1.0 404 Not Found\r\n\r\n')
             return
-
-        Sdata = ('HTTP/1.0 200 OK\r\n\r\n%s:%s=%s\n'% (data, type, socket.gethostbyname(data)))
+        if type == 'A':
+            Sdata = ('HTTP/1.0 200 OK\r\n\r\n%s:%s=%s\n'% (data, type, socket.gethostbyname(data)))
+        elif type == 'PTR':
+            Sdata = ('HTTP/1.0 200 OK\r\n\r\n%s:%s=%s\n'% (data, type, socket.gethostbyaddr(data)))
         Bdata = Sdata.encode() #string -> bytes
         conn.send((Bdata))
 ##########################################
@@ -48,9 +50,51 @@ def opGet(Sdata,s,conn):
         conn.sendall(b'HTTP/1.0 400 Bad Request\r\n\r\n')
         return
 ##########################################
+#spracovanie operacie POST
 def opPost(Sdata, s, conn):
+    Sdata = Sdata.replace("\n", " ")
+    Sdata = Sdata.replace("\r", " ")
 
-    pass
+    arr = Sdata.split(' ')                  # ulozenie vstupu do pola
+    arrLen = len(arr)
+
+    counter = 0
+    header = False                          #ukazatel na error~False (ziaden validny vysledok)
+
+    while counter < arrLen:                 #prechadzanie polom a jeho vyhodnocovanie
+        line = arr[counter].replace(" ", "")
+
+        if line.endswith(':A'):             #A type
+            counter = counter + 1
+            line = line.replace(":A", "")
+            try:                            #kontrola existencie ip
+                ip = socket.gethostbyname(line)
+            except socket.error:
+                continue
+            Sdata = ('%s:A=%s\r\n'%(line,ip))
+            Sdata = Sdata.encode()
+            conn.sendall((Sdata))
+            header = True
+
+        elif line.endswith(':PTR'):         #PTR type
+            counter = counter + 1
+            line = line.replace(":PTR", "")
+            try:                            #kontrola existencie ip
+                ip = socket.gethostbyaddr(line)
+            except socket.error:
+                continue
+            Sdata = ('%s:PTR=%s\r\n'%(line,ip[0]))
+            Sdata = Sdata.encode()
+            conn.sendall((Sdata))
+            header = True
+
+        else:
+            counter = counter + 1
+
+    if header == False:                     #nevalidny vstup, error
+        conn.sendall(b'HTTP/1.0 400 Bad Request\r\n\r\n')
+
+
 ##########################################
 #nacitavanie dat od klienta a vyhodnotenie prikazov
 def DTload(s):
