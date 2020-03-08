@@ -20,7 +20,7 @@ print('Received', repr(data))
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST_NAME, PORT))
-    s.sendall(b'POST /dns-query HTTP/1.1')
+    s.sendall(b'POST/dns-query HTTP/1.1')
     data = s.recv(1024)
 print('Received', repr(data))
 

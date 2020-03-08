@@ -8,6 +8,7 @@
 
 import sys #na kontrolu argumentov
 import socket
+
 ##########################################
 #poslanie validnych dat klientovi - opGet
 def Dsend (data, type, s, conn, err):
@@ -24,6 +25,7 @@ def Dsend (data, type, s, conn, err):
             Sdata = ('HTTP/1.0 200 OK\r\n\r\n%s:%s=%s\n'% (data, type, socket.gethostbyaddr(data)))
         Bdata = Sdata.encode() #string -> bytes
         conn.send((Bdata))
+
 ##########################################
 #spracovanie operacie GET
 def opGet(Sdata,s,conn):
@@ -49,11 +51,18 @@ def opGet(Sdata,s,conn):
     else:
         conn.sendall(b'HTTP/1.0 400 Bad Request\r\n\r\n')
         return
+
 ##########################################
 #spracovanie operacie POST
 def opPost(Sdata, s, conn):
     Sdata = Sdata.replace("\n", " ")
     Sdata = Sdata.replace("\r", " ")
+
+    if Sdata.startswith('POST/dns-queryHTTP/1.1'):
+        pass
+    else:
+        conn.sendall(b'HTTP/1.0 400 Bad Request\r\n\r\n')
+        return
 
     arr = Sdata.split(' ')                  # ulozenie vstupu do pola
     arrLen = len(arr)
@@ -63,7 +72,6 @@ def opPost(Sdata, s, conn):
 
     while counter < arrLen:                 #prechadzanie polom a jeho vyhodnocovanie
         line = arr[counter].replace(" ", "")
-
         if line.endswith(':A'):             #A type
             counter = counter + 1
             line = line.replace(":A", "")
@@ -71,8 +79,11 @@ def opPost(Sdata, s, conn):
                 ip = socket.gethostbyname(line)
             except socket.error:
                 continue
+            if header == False:             #kontrola hlavicky
+                conn.sendall(b'')
+                conn.sendall(b'HTTP/1.0 200 OK\r\n\r\n')
             Sdata = ('%s:A=%s\r\n'%(line,ip))
-            Sdata = Sdata.encode()
+            Sdata = Sdata.encode()          #string  -> byte
             conn.sendall((Sdata))
             header = True
 
@@ -83,8 +94,11 @@ def opPost(Sdata, s, conn):
                 ip = socket.gethostbyaddr(line)
             except socket.error:
                 continue
+            if header == False:             # kontrola hlavicky
+                conn.sendall(b'')
+                conn.sendall(b'HTTP/1.0 200 OK\r\n\r\n')
             Sdata = ('%s:PTR=%s\r\n'%(line,ip[0]))
-            Sdata = Sdata.encode()
+            Sdata = Sdata.encode()          #string  -> byte
             conn.sendall((Sdata))
             header = True
 
@@ -93,7 +107,7 @@ def opPost(Sdata, s, conn):
 
     if header == False:                     #nevalidny vstup, error
         conn.sendall(b'HTTP/1.0 400 Bad Request\r\n\r\n')
-
+        return
 
 ##########################################
 #nacitavanie dat od klienta a vyhodnotenie prikazov
@@ -114,9 +128,9 @@ def DTload(s):
                 opGet(Sdata,s,conn)
                 break
 
-            elif Sdata.startswith( 'POST' ):
+            elif Sdata.startswith( 'POST/' ):
                 opPost(Sdata,s,conn)
-
+                break
             else: #neznamy prikaz
                 conn.sendall(b'HTTP/1.0 405 Method Not Allowed\r\n\r\n')
                 break
@@ -124,17 +138,17 @@ def DTload(s):
 ##########################################
 def main():
     if len(sys.argv) != 2:              #validny pocet argumentov
-        print("Wrong number of arguments.", file=sys.stderr)
+        print("Wrong number of arguments\r\n\r\n.", file=sys.stderr)
         exit(1)
 
     if sys.argv[1].isnumeric():         #validny port - short int
         range = int(sys.argv[1])        #funguje iba na prirodzene cisla
         if range > 65535 or range == 0:
-            print("Incorect format of PORT - out of range.", file=sys.stderr)
+            print("Incorect format of PORT - out of range.\r\n\r\n", file=sys.stderr)
             exit(1)
 
     else:
-        print("Incorect format of PORT - invalid characters.", file=sys.stderr)
+        print("Incorect format of PORT - invalid characters.\r\n\r\n", file=sys.stderr)
         exit(1)
 
     HOST = '127.0.0.1'
@@ -144,6 +158,6 @@ def main():
         s.bind((HOST, PORT))
         while True:
             DTload(s)
-##########################################
 
+##########################################
 main()
