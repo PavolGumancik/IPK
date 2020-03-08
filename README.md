@@ -14,7 +14,7 @@ První projekt očekává samostatné vypracování zadané úlohy z oblasti pro
 ##### Specifikace
 Cílem projektu je implementace severu, který bude komunikovat protokolem HTTP a bude zajišťovat překlad doménových jmen. Pro překlad jmen bude server používat lokální resolver stanice na které běží - užijte přímo API, které poskytuje OS (například getnameinfo, getaddrinfo pro C/C++). 
 
-Server podporuje dvě operace:
+##### Server podporuje dvě operace:
 	GET
 	POST
 
@@ -32,15 +32,14 @@ Spuštěni probíha pomocí makefilu a to následovne
 
 make run ```PORT=XXXX```		
 
-spustí server na portu 1234 
-XXXX je integer v intervalu (0,65536)
+> spustí server na portu XXXX, XXXX je integer v intervalu (0,65536)
 
 V prípade nevalidního portu vypíše na stderr
-	"Incorect format of PORT - out of range." - XXXX je integer, ale mimo rozsahu
-	"Incorect format of PORT - invalid characters." - XXXX neni integer
+	*"Incorect format of PORT - out of range."* - XXXX je integer, ale mimo rozsahu
+	*"Incorect format of PORT - invalid characters."* - XXXX neni integer
 ##### Testování
 
-Pro testování je možné použít nástroj curl. 
+Pro testování je možné použít nástroj *curl*. 
 
 Příklad příkazu pro GET operaci:
 
