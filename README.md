@@ -17,13 +17,29 @@ Cílem projektu je implementace severu, který bude komunikovat protokolem HTTP 
 ##### Server podporuje dvě operace:
 	GET
 	POST
+##### Implementace
+Implementace proběhla v jazyce Python, konkretne *Python3.6*. Cílový program *ipk1.py* se skláda y 5 funkcí a to: 
+
+##### Dsend()
+Spracuje adresu, vzhodnoti jeji existenci a pošle data klientovi. Pouze pro příkaz GET
+
+##### opGet()
+Vyhodnotí szntax instrukce, získa adresu pro další postup a yavola funkci Dsend.
+##### opPost()
+Vyhodnotí dodatečné parametry instrukce a spracuje výstup.
+
+##### DTload()
+Funkce dekóduje data vzhodnotí správnost operace a následne předá přikaz podle ní.
+
+##### Main()
+Vyhodnotí spravnost spuštení servru, při chybě ukončí vzkonáváni programu a vzpíše chzbovou hlášku viz. "Překlad a spuštění", dále vztvoři servr a yabeypečuje jeho chod, násedně volá funkci DTload.  
 
 ##### Ošetření chyb
 Mohou nastat následující chyby, které nesouvisí s výsledkem při překladu dotazů:
 
     Vstupní URL není správné, je jiné než /resolve či /dns-query - vrací 400 Bad Request.
     Vstupní parametry pro GET jsou nesprávné nebo chybí - vrací 400 Bad Request.
-    Vstupní adresa pro get nebyla nalezena - vrací 404 Not Found
+    Vstupní adresa pro GET nebyla nalezena - vrací 404 Not Found
     Formát vstupu pro POST není správný - vrací 400 Bad Request.
     Operace není podporována - je použita jiná operace než GET a POST - vrací 405 Method Not Allowed.
 
