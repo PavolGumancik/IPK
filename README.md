@@ -1,20 +1,24 @@
-#IPK - Počítačové komunikace a sítě
-##Projekt 1 
+# IPK - Počítačové komunikace a sítě
+## Projekt 1 
 
-##Pavol Gumančík 
-###login : xguman01
+---
 
-Popis:
+## Pavol Gumančík 
+### login : xguman01
+
+---
+
+##### Popis:
 První projekt očekává samostatné vypracování zadané úlohy z oblasti programování klient-server síťových aplikací. Předpokládá se použití základních knihoven a prostředků pro programování síťových soketů. 
 
-Specifikace
+##### Specifikace
 Cílem projektu je implementace severu, který bude komunikovat protokolem HTTP a bude zajišťovat překlad doménových jmen. Pro překlad jmen bude server používat lokální resolver stanice na které běží - užijte přímo API, které poskytuje OS (například getnameinfo, getaddrinfo pro C/C++). 
 
 Server podporuje dvě operace:
 	GET
 	POST
 
-Ošetření chyb
+##### Ošetření chyb
 Mohou nastat následující chyby, které nesouvisí s výsledkem při překladu dotazů:
 
     Vstupní URL není správné, je jiné než /resolve či /dns-query - vrací 400 Bad Request.
@@ -23,7 +27,7 @@ Mohou nastat následující chyby, které nesouvisí s výsledkem při překladu
     Formát vstupu pro POST není správný - vrací 400 Bad Request.
     Operace není podporována - je použita jiná operace než GET a POST - vrací 405 Method Not Allowed.
 
-##Překlad a spuštění
+##### Překlad a spuštění
 Spuštěni probíha pomocí makefilu a to následovne
 
 make run PORT=XXXX		
@@ -34,7 +38,7 @@ XXXX je integer v intervalu (0,65536)
 V prípade nevalidního portu vypíše na stderr
 	"Incorect format of PORT - out of range." - XXXX je integer, ale mimo rozsahu
 	"Incorect format of PORT - invalid characters." - XXXX neni integer
-Testování
+##### Testování
 
 Pro testování je možné použít nástroj curl. 
 
