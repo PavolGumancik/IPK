@@ -1,3 +1,9 @@
+#IPK - Počítačové komunikace a sítě
+##Projekt 1 
+
+##Pavol Gumančík 
+###login : xguman01
+
 Popis:
 První projekt očekává samostatné vypracování zadané úlohy z oblasti programování klient-server síťových aplikací. Předpokládá se použití základních knihoven a prostředků pro programování síťových soketů. 
 
@@ -13,12 +19,12 @@ Mohou nastat následující chyby, které nesouvisí s výsledkem při překladu
 
     Vstupní URL není správné, je jiné než /resolve či /dns-query - vrací 400 Bad Request.
     Vstupní parametry pro GET jsou nesprávné nebo chybí - vrací 400 Bad Request.
-	Vstupní adresa pro get nebyla nalezena - vrací 404 Not Found
+    Vstupní adresa pro get nebyla nalezena - vrací 404 Not Found
     Formát vstupu pro POST není správný - vrací 400 Bad Request.
     Operace není podporována - je použita jiná operace než GET a POST - vrací 405 Method Not Allowed.
 
-Překlad a spuštění
-Spuštěni probíha pomocou makefilu a to následovne
+##Překlad a spuštění
+Spuštěni probíha pomocí makefilu a to následovne
 
 make run PORT=XXXX		
 
@@ -30,7 +36,7 @@ V prípade nevalidního portu vypíše na stderr
 	"Incorect format of PORT - invalid characters." - XXXX neni integer
 Testování
 
-Pro testování funkčnosti a před odevzdání projektu si vyzkoušejte na dostatečném vzorku případů. Pro testování je možné použít nástroj curl. 
+Pro testování je možné použít nástroj curl. 
 
 Příklad příkazu pro GET operaci:
 
