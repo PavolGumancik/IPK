@@ -18,7 +18,7 @@ Cílem projektu je implementace severu, který bude komunikovat protokolem HTTP 
 	GET
 	POST
 ##### Implementace
-Implementace proběhla v jazyce Python, konkretne *Python3.6*. Cílový program *ipk1.py* se skláda y 5 funkcí a to: 
+Implementace proběhla v jazyce Python, konkretne *Python3.6*. Cílový program *ipk1.py* se skláda z 5 funkcí a to: 
 
 ##### Dsend()
 Spracuje adresu, vzhodnoti jeji existenci a pošle data klientovi. Pouze pro příkaz GET
