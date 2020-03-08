@@ -30,7 +30,7 @@ Mohou nastat následující chyby, které nesouvisí s výsledkem při překladu
 ##### Překlad a spuštění
 Spuštěni probíha pomocí makefilu a to následovne
 
-make run PORT=XXXX		
+make run ```PORT=XXXX```		
 
 spustí server na portu 1234 
 XXXX je integer v intervalu (0,65536)
@@ -44,32 +44,41 @@ Pro testování je možné použít nástroj curl.
 
 Příklad příkazu pro GET operaci:
 
+```
 curl localhost:5353/resolve?name=www.fit.vutbr.cz\&type=A
+```
 
 Odpověď/výstup z je na jeden řádek:
 
+```
 www.fit.vutbr.cz:A=147.229.9.23
+```
 
 Příklad příkazu pro POST operaci:
 
+```
 curl --data-binary @queries.txt -X POST http://localhost:5353/dns-query
+```
 
 Kde soubor queries.txt obsahuje toto:
 
+```
 www.fit.vutbr.cz:A
 www.google.com:A
 www.seznam.cz:A
 147.229.14.131:PTR
 ihned.cz:A
+```
 
 odpověď/výstup z curl vzpadá takto:
 
+```
 www.fit.vutbr.cz:A=147.229.9.23
 www.google.com:A=216.58.201.68
 www.seznam.cz:A=77.75.74.176
 147.229.14.131:PTR=dhcpz131.fit.vutbr.cz
 ihned.cz:A=46.255.231.42
-
+```
 
 
 
