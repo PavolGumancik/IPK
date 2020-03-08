@@ -29,7 +29,7 @@ Vyhodnotí szntax instrukce, získa adresu pro další postup a yavola funkci Ds
 Vyhodnotí dodatečné parametry instrukce a spracuje výstup.
 
 ##### DTload()
-Funkce dekóduje data vzhodnotí správnost operace a následne předá přikaz podle ní.
+Funkce dekóduje data vyhodnotí správnost operace a následne předá přikaz podle ní.
 
 ##### Main()
 Vyhodnotí spravnost spuštení servru, při chybě ukončí vzkonáváni programu a vzpíše chzbovou hlášku viz. "Překlad a spuštění", dále vztvoři servr a yabeypečuje jeho chod, násedně volá funkci DTload.  
@@ -50,9 +50,9 @@ make run ```PORT=XXXX```
 
 > spustí server na portu XXXX, XXXX je integer v intervalu (0,65536)
 
-V prípade nevalidního portu vypíše na stderr
-	*"Incorect format of PORT - out of range."* - XXXX je integer, ale mimo rozsahu
-	*"Incorect format of PORT - invalid characters."* - XXXX neni integer
+##### V prípade nevalidního portu vypíše na stderr <br/>
+*"Incorect format of PORT - out of range."* - XXXX je integer, ale mimo rozsahu <br/>
+*"Incorect format of PORT - invalid characters."* - XXXX neni integer <br/>
 ##### Testování
 
 Pro testování je možné použít nástroj *curl*. 
